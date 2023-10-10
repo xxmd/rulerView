@@ -7,7 +7,7 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <com.example.mylibrary.widget.RulerView
+    <com.example.mylibrary.widget.StraightRulerView
         android:layout_width="match_parent"
         android:layout_height="400dp" />
 

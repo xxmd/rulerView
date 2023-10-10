@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StraightRulerView">
+        <attr name="leftAreaColor" format="color"/>
+        <attr name="rightAreaColor" format="color"/>
+        <attr name="markColor" format="color"/>
+        <attr name="markWidth" format="dimension"/>
+        <attr name="smallMarkLength" format="dimension"/>
+        <attr name="bigMarkLength" format="dimension"/>
+        <attr name="scaleTextColor" format="color"/>
+        <attr name="scaleTextSize" format="dimension"/>
+        <attr name="rulerBackground" format="reference|color"/>
+        <attr name="draggableLineColor" format="color"/>
+        <attr name="indicator" format="reference|color"/>
+        <attr name="showMeasureValue" format="boolean"/>
+    </declare-styleable>
+</resources>

@@ -13,14 +13,16 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
-import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
-public class RulerView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
-    @ColorInt
-    private int rulerBackground = Color.WHITE;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
+public class StraightRulerView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+    @DrawableRes
+    private int rulerBackground = -1;
     private Paint bigMarkPaint = new Paint();
     private float bigMarkLength = dpToPx(40f);
     private Paint smallMarkPaint = new Paint();
@@ -28,18 +30,23 @@ public class RulerView extends SurfaceView implements SurfaceHolder.Callback, Ru
     private TextPaint textPaint = new TextPaint();
     private float textMarkGap = dpToPx(10);
     private float scannedAreaWidth = 200;
-    private Paint scannedAreaPaint = new Paint();
+    private Paint leftAreaPaint = new Paint();
+    private Paint rightAreaPaint = new Paint();
     private float indicatorWidth = dpToPx(20);
     private float indicatorHeight = dpToPx(50);
     private Region indicatorRegion;
     private boolean startInIndicatorRegion = false;
-    private int canvasWidth;
 
-    public RulerView(Context context) {
+    private TextPaint measureValuePaint = new TextPaint();
+    private int canvasWidth;
+    private float oneMMToPX;
+    private float oneInchToPX;
+
+    public StraightRulerView(Context context) {
         super(context);
     }
 
-    public RulerView(Context context, AttributeSet attrs) {
+    public StraightRulerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
         init();
@@ -63,33 +70,98 @@ public class RulerView extends SurfaceView implements SurfaceHolder.Callback, Ru
         textPaint.setTextSize(50);
         textPaint.setAntiAlias(true);
 
-        scannedAreaPaint.setColor(Color.parseColor("#daeaff"));
-        scannedAreaPaint.setStyle(Paint.Style.FILL);
-    }
+        leftAreaPaint.setColor(Color.parseColor("#daeaff"));
+        leftAreaPaint.setStyle(Paint.Style.FILL);
 
-    private void initView() {
-//        drawMarkLayer();
+        rightAreaPaint.setColor(Color.parseColor("#d7edea"));
+        rightAreaPaint.setStyle(Paint.Style.FILL);
+
+        measureValuePaint.setColor(Color.BLACK);
+        measureValuePaint.setTextSize(100);
+        measureValuePaint.setAntiAlias(true);
     }
 
     private void drawMarkLayer(Canvas canvas) {
         // Avoid obstructing the scales at both ends
         canvas.scale(0.97f, 1, canvas.getWidth() / 2, 0);
-        canvas.drawColor(rulerBackground);
-        drawScannedArea(canvas);
+//        if (rulerBackground > 0) {
+//
+//        }
+        canvas.drawColor(Color.WHITE);
+        drawDraggedArea(canvas);
 
-        float oneMMToPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
+        oneMMToPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
         drawMark(canvas, oneMMToPX, bigMarkPaint, smallMarkPaint, textPaint);
         canvas.save();
         canvas.rotate(180, canvas.getWidth() / 2, canvas.getHeight()/ 2);
-        float oneInchToPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_IN, 1, getResources().getDisplayMetrics());
+        oneInchToPX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_IN, 1, getResources().getDisplayMetrics());
         drawMark(canvas, oneInchToPX / 10, bigMarkPaint, smallMarkPaint, textPaint);
         canvas.restore();
         drawDraggableLine(canvas);
+        drawMeasureValue(canvas);
     }
 
-    private void drawScannedArea(Canvas canvas) {
-        Rect rect = new Rect(0, 0, (int) scannedAreaWidth, canvas.getHeight());
-        canvas.drawRect(rect, scannedAreaPaint);
+    private void drawMeasureValue(Canvas canvas) {
+        drawCMValue(canvas);
+        drawInchValue(canvas);
+    }
+
+    public float getCMValue() {
+        return scannedAreaWidth / oneMMToPX / 10;
+    }
+    public float getInchValue() {
+        return (canvasWidth - scannedAreaWidth) / oneInchToPX;
+    }
+
+    private void drawCMValue(Canvas canvas) {
+        float cmValue = getCMValue();
+        String cmValueFormat = formatCMValue(cmValue);
+        Rect rect = new Rect();
+        measureValuePaint.getTextBounds(cmValueFormat, 0, cmValueFormat.length(), rect);
+        int y = canvas.getHeight() / 4 + rect.height() / 2;
+        if (scannedAreaWidth > rect.width() + textMarkGap) {
+            canvas.drawText(cmValueFormat, scannedAreaWidth - rect.width() - textMarkGap, y, measureValuePaint);
+        } else {
+            canvas.drawText(cmValueFormat, scannedAreaWidth + textMarkGap, y, measureValuePaint);
+        }
+    }
+
+    private void drawInchValue(Canvas canvas) {
+        float inchValue = getInchValue();
+        String inchValueFormat = formatInchValue(inchValue);
+        Rect rect = new Rect();
+        measureValuePaint.getTextBounds(inchValueFormat, 0, inchValueFormat.length(), rect);
+        canvas.save();
+        canvas.rotate(180, canvas.getWidth() / 2, canvas.getHeight() / 2);
+        int y = canvas.getHeight() / 4 + rect.height() / 2;
+        float indicatorX = canvasWidth - scannedAreaWidth;
+        if (indicatorX > rect.width() + textMarkGap) {
+            canvas.drawText(inchValueFormat, indicatorX - rect.width() - textMarkGap, y, measureValuePaint);
+        } else {
+            canvas.drawText(inchValueFormat, indicatorX + textMarkGap, y, measureValuePaint);
+        }
+        canvas.restore();
+    }
+
+    private String formatCMValue(float cmValue) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String format = decimalFormat.format(cmValue);
+        return format + " cm";
+    }
+
+    private String formatInchValue(float inchValue) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String format = decimalFormat.format(inchValue);
+        return format + " inch";
+    }
+
+
+    private void drawDraggedArea(Canvas canvas) {
+        Rect leftRect = new Rect(0, 0, (int) scannedAreaWidth, canvas.getHeight());
+        canvas.drawRect(leftRect, leftAreaPaint);
+
+        Rect rightRect = new Rect((int) scannedAreaWidth, 0, canvas.getWidth(), canvas.getHeight());
+        canvas.drawRect(rightRect, rightAreaPaint);
     }
 
     private void drawDraggableLine(Canvas canvas) {
@@ -143,7 +215,7 @@ public class RulerView extends SurfaceView implements SurfaceHolder.Callback, Ru
     public void draw() {
         Canvas canvas = getHolder().lockCanvas();
         canvasWidth = canvas.getWidth();
-        drawScannedArea(canvas);
+        drawDraggedArea(canvas);
         drawMarkLayer(canvas);
         drawDraggableLine(canvas);
         getHolder().unlockCanvasAndPost(canvas);
