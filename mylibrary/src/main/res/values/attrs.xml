@@ -4,14 +4,26 @@
         <attr name="leftAreaColor" format="color"/>
         <attr name="rightAreaColor" format="color"/>
         <attr name="markColor" format="color"/>
-        <attr name="markWidth" format="dimension"/>
         <attr name="smallMarkLength" format="dimension"/>
+        <attr name="smallMarkWidth" format="dimension"/>
         <attr name="bigMarkLength" format="dimension"/>
+        <attr name="bigMarkWidth" format="dimension"/>
         <attr name="scaleTextColor" format="color"/>
         <attr name="scaleTextSize" format="dimension"/>
+        <attr name="measureValueColor" format="color"/>
+        <attr name="measureValueTextSize" format="dimension"/>
         <attr name="rulerBackground" format="reference|color"/>
         <attr name="draggableLineColor" format="color"/>
-        <attr name="indicator" format="reference|color"/>
+        <attr name="draggableLineWidth" format="dimension"/>
+        <attr name="indicatorColor" format="color"/>
+        <attr name="indicatorWidth" format="dimension"/>
+        <attr name="indicatorHeight" format="dimension"/>
+        <attr name="showDraggableLine" format="boolean"/>
         <attr name="showMeasureValue" format="boolean"/>
+        <attr name="showMode" format="enum">
+            <enum name="SHOW_BOTH" value="0"/>
+            <enum name="HIDE_INCH" value="1"/>
+            <enum name="ALL_CM" value="2"/>
+        </attr>
     </declare-styleable>
 </resources>
