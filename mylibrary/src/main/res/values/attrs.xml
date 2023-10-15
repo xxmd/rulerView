@@ -12,7 +12,9 @@
         <attr name="scaleTextSize" format="dimension"/>
         <attr name="measureValueColor" format="color"/>
         <attr name="measureValueTextSize" format="dimension"/>
-        <attr name="rulerBackground" format="reference|color"/>
+        <!--how to handle multiple format?-->
+<!--        <attr name="rulerBackground" format="reference|color"/>-->
+        <attr name="rulerBackground" format="color"/>
         <attr name="draggableLineColor" format="color"/>
         <attr name="draggableLineWidth" format="dimension"/>
         <attr name="indicatorColor" format="color"/>

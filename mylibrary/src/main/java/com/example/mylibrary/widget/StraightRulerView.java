@@ -314,18 +314,20 @@ public class StraightRulerView extends SurfaceView implements SurfaceHolder.Call
     }
 
     private void drawBackground(Canvas canvas) {
-        TypedValue backgroundValue = new TypedValue();
-        typedArray.getValue(R.styleable.StraightRulerView_rulerBackground, backgroundValue);
-        if (backgroundValue.type == TypedValue.TYPE_REFERENCE) {
-            int resourceId = typedArray.getResourceId(R.styleable.StraightRulerView_rulerBackground, Integer.MIN_VALUE);
-            if (resourceId != Integer.MIN_VALUE) {
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resourceId);
-                canvas.drawBitmap(bitmap, 0, 0, null);
-            }
-        } else {
-            int color = typedArray.getColor(R.styleable.StraightRulerView_rulerBackground, Color.WHITE);
-            canvas.drawColor(color);
-        }
+//        TypedValue backgroundValue = new TypedValue();
+//        typedArray.getValue(R.styleable.StraightRulerView_rulerBackground, backgroundValue);
+//        if (backgroundValue.type != TypedValue.TYPE_REFERENCE) {
+//            int resourceId = typedArray.getResourceId(R.styleable.StraightRulerView_rulerBackground, Integer.MIN_VALUE);
+//            if (resourceId != Integer.MIN_VALUE) {
+//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resourceId);
+//                canvas.drawBitmap(bitmap, 0, 0, null);
+//            }
+//        } else {
+//            int color = typedArray.getColor(R.styleable.StraightRulerView_rulerBackground, Color.WHITE);
+//            canvas.drawColor(color);
+//        }
+        int color = typedArray.getColor(R.styleable.StraightRulerView_rulerBackground, Color.WHITE);
+        canvas.drawColor(color);
     }
 
     @Override

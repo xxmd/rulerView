@@ -4,33 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@drawable/divider_height_10"
-    android:gravity="center"
+    android:divider="@drawable/divider_height_20"
+    android:gravity="center_vertical"
     android:orientation="vertical"
     android:showDividers="middle"
     tools:context=".MainActivity">
 
-<!--    <com.example.mylibrary.widget.StraightRulerView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="100dp"-->
-<!--        app:bigMarkLength="20dp"-->
-<!--        app:indicatorHeight="20dp"-->
-<!--        app:indicatorWidth="10dp"-->
-<!--        app:measureValueTextSize="14sp"-->
-<!--        app:smallMarkLength="10dp" />-->
+    <!--set width and height-->
+    <com.example.mylibrary.widget.StraightRulerView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:bigMarkLength="20dp"
+        app:indicatorHeight="20dp"
+        app:indicatorWidth="10dp"
+        app:measureValueTextSize="14sp"
+        app:smallMarkLength="10dp" />
 
-<!--    <com.example.mylibrary.widget.StraightRulerView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="100dp"-->
-<!--        app:bigMarkLength="20dp"-->
-<!--        app:indicatorHeight="20dp"-->
-<!--        app:indicatorWidth="10dp"-->
-<!--        app:leftAreaColor="@android:color/transparent"-->
-<!--        app:rightAreaColor="@android:color/transparent"-->
-<!--        app:rulerBackground="#b8b8b8"-->
-<!--        app:measureValueTextSize="14sp"-->
-<!--        app:smallMarkLength="10dp" />-->
+    <!--modify background color-->
+    <com.example.mylibrary.widget.StraightRulerView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:bigMarkLength="20dp"
+        app:indicatorHeight="20dp"
+        app:indicatorWidth="10dp"
+        app:measureValueTextSize="14sp"
+        app:leftAreaColor="@android:color/transparent"
+        app:rightAreaColor="@android:color/transparent"
+        app:rulerBackground="#c9c9c9"
+        app:scaleTextColor="@android:color/holo_red_light"
+        app:smallMarkLength="10dp" />
 
+    <!--modify mark length-->
+    <com.example.mylibrary.widget.StraightRulerView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:bigMarkLength="40dp"
+        app:indicatorHeight="20dp"
+        app:indicatorWidth="10dp"
+        app:leftAreaColor="@android:color/transparent"
+        app:markColor="@android:color/holo_red_light"
+        app:measureValueColor="@android:color/holo_red_light"
+        app:measureValueTextSize="14sp"
+        app:rightAreaColor="@android:color/transparent"
+        app:rulerBackground="#d6efe7"
+        app:scaleTextColor="@android:color/holo_red_light"
+        app:smallMarkLength="20dp" />
+
+    <!--only show cm-->
     <com.example.mylibrary.widget.StraightRulerView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -38,22 +58,13 @@
         app:indicatorHeight="20dp"
         app:indicatorWidth="10dp"
         app:leftAreaColor="@android:color/transparent"
-        app:rightAreaColor="@android:color/transparent"
-        app:rulerBackground="@drawable/wood"
+        app:markColor="@android:color/holo_red_light"
         app:measureValueTextSize="14sp"
+        app:rightAreaColor="@android:color/transparent"
+        app:rulerBackground="#d6efe7"
+        app:scaleTextColor="@android:color/holo_red_light"
+        app:showMeasureValue="false"
+        app:showMode="HIDE_INCH"
         app:smallMarkLength="10dp" />
-
-<!--    <com.example.mylibrary.widget.StraightRulerView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="100dp"-->
-<!--        app:bigMarkLength="20dp"-->
-<!--        app:indicatorHeight="20dp"-->
-<!--        app:indicatorWidth="10dp"-->
-<!--        app:leftAreaColor="@android:color/transparent"-->
-<!--        app:rightAreaColor="@android:color/transparent"-->
-<!--        app:markColor="#deebff"-->
-<!--        app:rulerBackground="#d6efe7"-->
-<!--        app:measureValueTextSize="14sp"-->
-<!--        app:smallMarkLength="10dp" />-->
 
 </LinearLayout>
